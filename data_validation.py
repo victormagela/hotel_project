@@ -1,6 +1,3 @@
-from colors_and_title import vermelho, reset
-import os
-
 '''Functions that validates data collected from user_interface'''
 def guest_num_validation(guest_num):
 
