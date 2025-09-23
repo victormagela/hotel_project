@@ -1,4 +1,4 @@
-'''Functions that validates data collected from user_interface'''
+# Functions that validates data collected from user_interface
 def guest_num_validation(guest_num):
 
     try:
@@ -8,12 +8,14 @@ def guest_num_validation(guest_num):
     except (ValueError, TypeError):
         return False  
 
+
 def room_type_validation(room_type):
     return room_type in ["1", "2"]
 
+
 def num_days_validation(num_days):
     try:
-        num_days_int = int(num_days) # Conversão para int
+        num_days_int = int(num_days) # Conversion to int
         
         if num_days_int > 0:
             return True
@@ -41,12 +43,14 @@ def cpf_digit_calculation(cpf_list):
 
     return calculated_digit
 
-'''Bigger function to summarize CPF validation'''
+
+
 def cpf_validation(cpf_input):
-    if not cpf_input.isdigit() or len(cpf_input) != 11:
+    '''Bigger function to summarize CPF validation'''
+    if not cpf_input.isdigit() or len(cpf_input) != 11:    #CPF format validation
         return False
 
-    if cpf_input.count(cpf_input[0]) == 11:
+    if cpf_input.count(cpf_input[0]) == 11:    #CPF  repeated chars logic validation
         return False
     
     else:
