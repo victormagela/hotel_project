@@ -12,7 +12,11 @@ def collect_guest_name():
 def collect_cpf():
     while True:
          
-        cpf_input = input(f'{colors_and_title.amarelo_nomal}Favor digitar seu CPF: ')
+        cpf_input = input(f'{colors_and_title.amarelo_nomal}Favor digitar seu CPF: ')\
+        .replace(' ', '')\
+        .replace('-', '')\
+        .replace('.', '')
+
         if data_validation.cpf_validation(cpf_input):
             break
         else:
