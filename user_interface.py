@@ -98,28 +98,6 @@ def show_user_total_price(total_price):
     input(f'Digite qualquer tecla para confirmar e prosseguir para o relatório: {colors_and_title.reset}')
 
 
-def make_report(room_type, name, cpf_input, guest_num, daily_room_rate, num_days_int, total_price):
-    '''Processes all the data into a concisive report'''
-
-    os.system("cls")
-
-    room_name = 'Rei Tritão' if room_type == '1' else 'Princesa Ariel'
-
-    report = (    
-        f'{colors_and_title.verde_negrito}{"="*30}\n'
-        f'RELATÓRIO DE RESERVA\n'
-        f'{"="*30}\n'
-        f'{colors_and_title.amarelo_negrito}Cliente : {name}\n'
-        f'CPF: {cpf_input}\n'
-        f'Quarto: {room_name}\n'
-        f'Número de hóspedes: {guest_num}\n'
-        f'Preço da diária: {colors_and_title.verde_negrito}{locale.currency(daily_room_rate, grouping=True)}{colors_and_title.reset}\n'
-        f'{colors_and_title.amarelo_negrito}Número de dias a hospedar: {num_days_int}\n'
-        f'Preço total: {colors_and_title.verde_negrito}{locale.currency(total_price, grouping=True)}{colors_and_title.reset}\n'
-        )
-    return report
-
-
 def show_report_and_ask_confirmation(report):    
     user_confirmation = input(f'{report}\n'
           f'{colors_and_title.amarelo_nomal}\nDeseja confirmar sua reserva? Por favor, verifique se seus dados estão corretos. [s/n]  {colors_and_title.reset}').strip().lower()
@@ -137,10 +115,11 @@ def collect_guest_info():
     guest_num = collect_guest_num()
 
     room_type = collect_room_type()
+    room_name = 'Rei Tritão' if room_type == '1' else 'Princesa Ariel'
 
     num_days_int = collect_num_days()
 
-    return name, cpf_input, guest_num, room_type, num_days_int
+    return name, cpf_input, guest_num, room_type, room_name, num_days_int
 
 
 def data_exit_and_confirmation(report, total_price):
