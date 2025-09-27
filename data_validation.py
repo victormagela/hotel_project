@@ -1,4 +1,14 @@
 # Functions that validates data collected from user_interface
+def name_validation(name):
+    if not name:
+        return False
+    
+    elif len(name) <= 2 or len(name) > 100:
+        return False
+    
+    else:
+        return True
+
 def guest_num_validation(guest_num):
 
     try:
@@ -15,7 +25,7 @@ def room_type_validation(room_type):
 
 def num_days_validation(num_days):
     try:
-        num_days_int = int(num_days) # Conversion to int
+        num_days_int = int(num_days) # Conversion to int for validation and calculation
         
         if num_days_int > 0:
             return True

@@ -1,6 +1,6 @@
 '''Logic to calculate prices'''
 def calculate_room_price(num_days_int, guest_num, room_type):
-    prices_chart = {
+    daily_rate_table = {
     '1' : {'1' : 20, '2' : 25},
     '2' : {'1' : 28, '2' : 34},
     '3' : {'1' : 35, '2' : 42},
@@ -9,7 +9,7 @@ def calculate_room_price(num_days_int, guest_num, room_type):
     '6' : {'1' : 53, '2' : 63,}
 }
 
-    price_daily = prices_chart[guest_num][room_type]
-    total_price = price_daily * num_days_int # Valor da diária multiplicado pelo número de dias
+    daily_room_rate = daily_rate_table[guest_num][room_type]
+    total_price = daily_room_rate * num_days_int # Daily price times number of days
 
-    return price_daily, total_price
+    return daily_room_rate, total_price
