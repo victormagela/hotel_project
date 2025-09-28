@@ -51,8 +51,7 @@ def collect_guest_num():
 def collect_room_type():
     # Menu
     while True:
-        room_type = input(f'''{colors_and_title.amarelo_nomal}
-Favor, escolha do menu abaixo qual quarto vocês desejam:
+        room_type = input(f'''{colors_and_title.amarelo_nomal}Favor, escolha do menu abaixo qual quarto vocês desejam:
     [1] Quarto 1, Rei Tritão
     [2] Quarto 2, Princesa Ariel
 >>>>>> {colors_and_title.reset}''')
@@ -90,7 +89,7 @@ def show_user_total_price(total_price):
     os.system('cls')
     print(f'{colors_and_title.amarelo_nomal}O total fica:{colors_and_title.reset} {colors_and_title.verde_negrito}'
           f'{locale.currency(total_price, grouping=True)}{colors_and_title.reset}\n')
-    input(f'Digite qualquer tecla para confirmar e prosseguir para o relatório: {colors_and_title.reset}')
+    input(f'{colors_and_title.amarelo_nomal}Digite qualquer tecla para confirmar e prosseguir para o relatório: {colors_and_title.reset}')
 
 
 def show_report_and_ask_confirmation(report):    
@@ -102,22 +101,29 @@ def show_report_and_ask_confirmation(report):
 
 def collect_guest_info(dict):
     '''Larger function that groups all the smaller data collect related ones'''
-    print(f'{colors_and_title.verde_negrito}{colors_and_title.title}{colors_and_title.reset}')
+    input(f'{colors_and_title.verde_negrito}{colors_and_title.title}{colors_and_title.reset}\n'
+          f'{colors_and_title.amarelo_nomal}Digite qualquer tecla para prosseguir para a reserva: {colors_and_title.reset}')
 
+    os.system('cls')
+    print(f'{colors_and_title.verde_negrito}\n---DADOS DO CLIENTE---{colors_and_title.reset}')
     name = collect_guest_name()
     dict['client_name'] = name
 
+    print(f'{colors_and_title.verde_negrito}\n---DADOS DO CLIENTE---{colors_and_title.reset}')
     cpf_input = collect_cpf()
     dict['client_cpf'] = cpf_input
 
+    print(f'{colors_and_title.verde_negrito}\n---DADOS DA RESERVA---{colors_and_title.reset}')
     guest_num = collect_guest_num()
     dict['number_of_guests'] = guest_num
 
+    print(f'{colors_and_title.verde_negrito}\n---DADOS DA RESERVA---{colors_and_title.reset}')
     room_type = collect_room_type()
     room_name = 'Rei Tritão' if room_type == '1' else 'Princesa Ariel'
     dict['room_type'] = room_type
     dict['room_name'] = room_name
 
+    print(f'{colors_and_title.verde_negrito}\n---DADOS DA RESERVA---{colors_and_title.reset}')
     num_days_int = collect_num_days()
     dict['number_of_days'] = num_days_int
 
