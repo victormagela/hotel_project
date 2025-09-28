@@ -32,7 +32,6 @@ def main():
 
         else:
             os.system('cls')
-            continue
 
     print(f'{colors_and_title.amarelo_nomal}Obrigado por usar o sistema de reservas do Resort das Marés!{colors_and_title.reset}')
 

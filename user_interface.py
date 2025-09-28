@@ -89,8 +89,7 @@ def show_user_total_price(total_price):
     '''Displays processed data to the user'''
     os.system('cls')
     print(f'{colors_and_title.amarelo_nomal}O total fica:{colors_and_title.reset} {colors_and_title.verde_negrito}'
-          f'{locale.currency(total_price, grouping=True)}{colors_and_title.reset}\n'
-    f'{colors_and_title.amarelo_nomal}Obrigado por se hospedar no Resort das Marés!')
+          f'{locale.currency(total_price, grouping=True)}{colors_and_title.reset}\n')
     input(f'Digite qualquer tecla para confirmar e prosseguir para o relatório: {colors_and_title.reset}')
 
 
@@ -145,3 +144,4 @@ def data_exit_and_confirmation(report, total_price):
 
         else:
             print(f'{colors_and_title.vermelho}Por favor, digite apenas "s" para sim ou "n" para não.{colors_and_title.reset}')
+            input(f'{colors_and_title.amarelo_nomal}Digite qualquer tecla para voltar ao menu anterior.{colors_and_title.reset}')
