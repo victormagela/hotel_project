@@ -7,16 +7,15 @@ import data_validation
 # Smaller function that collects user info one by one
 def collect_guest_name():
     while True:
-        name = input(f'{colors_and_title.amarelo_nomal}Favor informar seu nome completo para a reserva: {colors_and_title.reset}').title().strip()
+        name = input(f'{colors_and_title.amarelo_nomal}'
+        f'Favor informar seu nome completo para a reserva: {colors_and_title.reset}').title().strip()
 
         os.system('cls')
         if data_validation.name_validation(name):
-            break
+            return name
 
         else:
             print(f'{colors_and_title.vermelho}Nome inválido!{colors_and_title.reset}')
-        
-    return name
 
 
 def collect_cpf():
@@ -29,25 +28,24 @@ def collect_cpf():
 
         os.system('cls')
         if data_validation.cpf_validation(cpf_input):
-            break
+            return cpf_input
+        
         else:
             print(f'{colors_and_title.vermelho}CPF inválido!{colors_and_title.reset}')
-        
-    return cpf_input
 
 
 def collect_guest_num():
     while True:
 
-        guest_num = input(f'{colors_and_title.amarelo_nomal}Favor informar o número de hóspedes(nossos quartos comportam de 1 a 6 pessoas): {colors_and_title.reset}')
+        guest_num = input(f'{colors_and_title.amarelo_nomal}Favor informar o número de hóspedes(nossos quartos comportam de 1 a 6 pessoas): '
+                          f'{colors_and_title.reset}')
         
         os.system('cls')
         if data_validation.guest_num_validation(guest_num):
-            break
+            return guest_num
+        
         else:
             print(f'{colors_and_title.vermelho}Por favor, digite um número inteiro de 1 a 6.{colors_and_title.reset}')
-                 
-    return guest_num
 
 
 def collect_room_type():
@@ -61,18 +59,17 @@ Favor, escolha do menu abaixo qual quarto vocês desejam:
         
         os.system('cls')
         if data_validation.room_type_validation(room_type):
-             break
+            
+            if room_type == "1":
+                print(f'{colors_and_title.amarelo_negrito}Você escolheu o quarto: Rei Tritão!{colors_and_title.reset}')
+                return room_type
+            
+            elif room_type == "2":
+                print(f'{colors_and_title.amarelo_negrito}Você escolheu o quarto: Princesa Ariel!{colors_and_title.reset}')
+                return room_type
+        
         else:
              print(f'{colors_and_title.vermelho}Favor escolher apenas entre quarto [1] ou [2]{colors_and_title.reset}')
-    
-    os.system("cls")
-    if room_type == "1":
-            print(f'{colors_and_title.amarelo_negrito}Você escolheu o quarto: Rei Tritão!{colors_and_title.reset}')
-            
-    elif room_type == "2":
-            print(f'{colors_and_title.amarelo_negrito}Você escolheu o quarto: Princesa Ariel!{colors_and_title.reset}')
-
-    return room_type
 
 
 def collect_num_days():
@@ -82,25 +79,25 @@ def collect_num_days():
         os.system('cls')
         if data_validation.num_days_validation(num_days):
             num_days_int = int(num_days)
-            break
+            return num_days_int
 
         else:
             print(f'{colors_and_title.vermelho}Por favor, digite um número inteiro maior que 0.{colors_and_title.reset}')
-            
-    return num_days_int
 
 
 def show_user_total_price(total_price):
     '''Displays processed data to the user'''
     os.system('cls')
-    print(f'{colors_and_title.amarelo_nomal}O total fica:{colors_and_title.reset} {colors_and_title.verde_negrito}{locale.currency(total_price, grouping=True)}{colors_and_title.reset}\n'
+    print(f'{colors_and_title.amarelo_nomal}O total fica:{colors_and_title.reset} {colors_and_title.verde_negrito}'
+          f'{locale.currency(total_price, grouping=True)}{colors_and_title.reset}\n'
     f'{colors_and_title.amarelo_nomal}Obrigado por se hospedar no Resort das Marés!')
     input(f'Digite qualquer tecla para confirmar e prosseguir para o relatório: {colors_and_title.reset}')
 
 
 def show_report_and_ask_confirmation(report):    
     user_confirmation = input(f'{report}\n'
-          f'{colors_and_title.amarelo_nomal}\nDeseja confirmar sua reserva? Por favor, verifique se seus dados estão corretos. [s/n]  {colors_and_title.reset}').strip().lower()
+        f'{colors_and_title.amarelo_nomal}\nDeseja confirmar sua reserva? Por favor, verifique se seus dados estão corretos. [s/n]'
+        f'{colors_and_title.reset}').strip().lower()
     return user_confirmation
     
 
@@ -130,12 +127,14 @@ def data_exit_and_confirmation(report, total_price):
 
         os.system('cls')
         if user_confirmation.startswith('s'):
-            print(f'{colors_and_title.amarelo_nomal}Reserva confirmada! Obrigado por se hospedar no Resort das Marés!{colors_and_title.reset}')
+            print(f'{colors_and_title.amarelo_nomal}Reserva confirmada! Obrigado por se hospedar no Resort das Marés!'
+                f'{colors_and_title.reset}')
             return user_confirmation, ''
 
         elif user_confirmation.startswith('n'):
             print(f'{colors_and_title.vermelho}Reserva cancelada!{colors_and_title.reset}')
-            reservation_reinput = input(f'{colors_and_title.amarelo_nomal}Deseja refazer a reserva? Digite qualquer tecla para refazer ou "n" para sair: {colors_and_title.reset}').strip().lower()
+            reservation_reinput = input(f'{colors_and_title.amarelo_nomal}'
+            f'Deseja refazer a reserva? Digite qualquer tecla para refazer ou "n" para sair: {colors_and_title.reset}').strip().lower()
             return user_confirmation, reservation_reinput
 
         else:
