@@ -101,22 +101,28 @@ def show_report_and_ask_confirmation(report):
     return user_confirmation
     
 
-def collect_guest_info():
+def collect_guest_info(dict):
     '''Larger function that groups all the smaller data collect related ones'''
     print(f'{colors_and_title.verde_negrito}{colors_and_title.title}{colors_and_title.reset}')
 
     name = collect_guest_name()
+    dict['client_name'] = name
 
     cpf_input = collect_cpf()
+    dict['client_cpf'] = cpf_input
 
     guest_num = collect_guest_num()
+    dict['number_of_guests'] = guest_num
 
     room_type = collect_room_type()
     room_name = 'Rei Tritão' if room_type == '1' else 'Princesa Ariel'
+    dict['room_type'] = room_type
+    dict['room_name'] = room_name
 
     num_days_int = collect_num_days()
+    dict['number_of_days'] = num_days_int
 
-    return name, cpf_input, guest_num, room_type, room_name, num_days_int
+    return dict
 
 
 def data_exit_and_confirmation(report, total_price):

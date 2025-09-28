@@ -8,15 +8,22 @@ import utils
 def main():
     '''Main program, receives the data from all other .py'''
     while True:
-        name, cpf_input, guest_num, room_type, room_name, num_days_int = user_interface.collect_guest_info()
+        valid_data_dict = {}
+        valid_data_dict = user_interface.collect_guest_info(valid_data_dict)
 
-        daily_room_rate, total_price = calculation_logic.calculate_room_price(num_days_int, guest_num, room_type)
+        daily_room_rate, total_price = calculation_logic.calculate_room_price(
+            valid_data_dict['number_of_days'],
+            valid_data_dict['number_of_guests'],
+            valid_data_dict['room_type'])
+        
+        valid_data_dict['daily_rate'] = daily_room_rate
+        valid_data_dict['total_price'] = total_price
 
-        report = utils.make_report(name, room_name, cpf_input, guest_num, daily_room_rate, num_days_int, total_price)
+        report = utils.make_report(valid_data_dict)
 
         user_confirmation, reservation_reinput = user_interface.data_exit_and_confirmation(report, total_price)
         if user_confirmation.startswith('s'):
-            utils.save_reservation(name, cpf_input, guest_num, room_name, daily_room_rate, num_days_int, total_price)
+            utils.save_reservation(valid_data_dict)
             break
 
         

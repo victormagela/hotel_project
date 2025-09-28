@@ -21,22 +21,21 @@ def valid_data_into_dict(name, cpf_input, guest_num, room_type_name, daily_room_
     return data_dict
 
 
-def make_report(name, room_name, cpf_input, guest_num, daily_room_rate, num_days_int, total_price):
+def make_report(dict):
     '''Processes all the data into a concisive report'''
 
     os.system("cls")
-
     report = (    
         f'{colors_and_title.verde_negrito}{"="*30}\n'
         f'RELATÓRIO DE RESERVA\n'
         f'{"="*30}\n'
-        f'{colors_and_title.amarelo_negrito}Cliente : {name}\n'
-        f'CPF: {cpf_input}\n'
-        f'Quarto: {room_name}\n'
-        f'Número de hóspedes: {guest_num}\n'
-        f'Preço da diária: {colors_and_title.verde_negrito}{locale.currency(daily_room_rate, grouping=True)}{colors_and_title.reset}\n'
-        f'{colors_and_title.amarelo_negrito}Número de dias a hospedar: {num_days_int}\n'
-        f'Preço total: {colors_and_title.verde_negrito}{locale.currency(total_price, grouping=True)}{colors_and_title.reset}\n'
+        f'{colors_and_title.amarelo_negrito}Cliente : {dict['client_name']}\n'
+        f'CPF: {dict['client_cpf']}\n'
+        f'Quarto: {dict['room_name']}\n'
+        f'Número de hóspedes: {dict['number_of_guests']}\n'
+        f'Preço da diária: {colors_and_title.verde_negrito}{locale.currency(dict['daily_rate'], grouping=True)}{colors_and_title.reset}\n'
+        f'{colors_and_title.amarelo_negrito}Número de dias a hospedar: {dict['number_of_days']}\n'
+        f'Preço total: {colors_and_title.verde_negrito}{locale.currency(dict['total_price'], grouping=True)}{colors_and_title.reset}\n'
         )
     return report
 
@@ -53,9 +52,9 @@ def read_file():
         return {}
     
     
-def save_reservation(name, cpf_input, guest_num, room_type_name, daily_room_rate, num_days_int, total_price):
+def save_reservation(dict):
     '''Saves the current reservation to a JSON file without overwriting any previous reservation saved on it.'''
     reservation_dict = read_file()  # In order to not overwrite anything, the save function must read the file, and then add to it.
-    reservation_dict[f'{name}_{cpf_input}'] = valid_data_into_dict(name, cpf_input, guest_num, room_type_name, daily_room_rate, num_days_int, total_price)
+    reservation_dict[f'{dict['client_name']}_{dict['client_cpf']}'] = dict
     with open(save_path, 'w', encoding='utf-8') as file:
         json.dump(reservation_dict, file, ensure_ascii=False, indent=4)
