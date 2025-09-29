@@ -1,3 +1,5 @@
+# Victor Mateus Magela Amato Ferreira
+
 import user_interface
 import calculation_logic
 import os
@@ -33,7 +35,7 @@ def main():
         else:
             os.system('cls')
 
-    print(f'{colors_and_title.amarelo_nomal}Obrigado por usar o sistema de reservas do Resort das Marés!{colors_and_title.reset}')
+    print(f'{colors_and_title.AMARELO_NORMAL}Obrigado por usar o sistema de reservas do Resort das Marés!{colors_and_title.RESET}')
 
 
 if __name__ == '__main__':

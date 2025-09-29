@@ -1,19 +1,24 @@
 # Functions that validates data collected from user_interface
 def name_validation(name):
-    if not name:
+    MIN_NAME_LENGTH = 2
+    MAX_NAME_LENGTH = 100
+
+    if not name or name.isdigit():
         return False
     
-    elif len(name) <= 2 or len(name) > 100:
+    elif len(name) <= MIN_NAME_LENGTH or len(name) > MAX_NAME_LENGTH:
         return False
     
     else:
         return True
 
 def guest_num_validation(guest_num):
+    MIN_NUMBER_GUESTS = 1
+    MAX_NUMBER_GUESTS = 6
 
     try:
-        guest_num_int = int(guest_num)
-        return 1 <= guest_num_int <= 6
+        guest_num_int = int(guest_num) # Conversion to int for validation
+        return MIN_NUMBER_GUESTS <= guest_num_int <= MAX_NUMBER_GUESTS
 
     except (ValueError, TypeError):
         return False  
@@ -24,14 +29,12 @@ def room_type_validation(room_type):
 
 
 def num_days_validation(num_days):
+    MIN_NUMBER_DAYS = 1
+    MAX_NUMBER_DAYS = 15
+
     try:
-        num_days_int = int(num_days) # Conversion to int for validation and calculation
-        
-        if num_days_int > 0:
-            return True
-        
-        else:
-            return False
+        num_days_int = int(num_days) # Conversion to int for validation and calculation        
+        return MIN_NUMBER_DAYS < num_days_int <= MAX_NUMBER_DAYS
     
     except (ValueError, TypeError):
         return False

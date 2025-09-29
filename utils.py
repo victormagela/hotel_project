@@ -26,16 +26,16 @@ def make_report(dict):
 
     os.system("cls")
     report = (    
-        f'{colors_and_title.verde_negrito}{"="*30}\n'
+        f'{colors_and_title.VERDE_NEGRITO}{"="*30}\n'
         f'RELATÓRIO DE RESERVA\n'
         f'{"="*30}\n'
-        f'{colors_and_title.amarelo_negrito}Cliente : {dict['client_name']}\n'
+        f'{colors_and_title.AMARELO_NEGRITO}Cliente : {dict['client_name']}\n'
         f'CPF: {dict['client_cpf']}\n'
         f'Quarto: {dict['room_name']}\n'
         f'Número de hóspedes: {dict['number_of_guests']}\n'
-        f'Preço da diária: {colors_and_title.verde_negrito}{locale.currency(dict['daily_rate'], grouping=True)}{colors_and_title.reset}\n'
-        f'{colors_and_title.amarelo_negrito}Número de dias a hospedar: {dict['number_of_days']}\n'
-        f'Preço total: {colors_and_title.verde_negrito}{locale.currency(dict['total_price'], grouping=True)}{colors_and_title.reset}\n'
+        f'Preço da diária: {colors_and_title.VERDE_NEGRITO}{locale.currency(dict['daily_rate'], grouping=True)}{colors_and_title.RESET}\n'
+        f'{colors_and_title.AMARELO_NEGRITO}Número de dias a hospedar: {dict['number_of_days']}\n'
+        f'Preço total: {colors_and_title.VERDE_NEGRITO}{locale.currency(dict['total_price'], grouping=True)}{colors_and_title.RESET}\n'
         )
     return report
 
