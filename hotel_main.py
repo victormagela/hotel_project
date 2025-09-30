@@ -10,8 +10,7 @@ import utils
 def main():
     '''Main program, receives the data from all other .py'''
     while True:
-        valid_data_dict = {}
-        valid_data_dict = user_interface.collect_guest_info(valid_data_dict)
+        valid_data_dict = user_interface.main_menu()
 
         daily_room_rate, total_price = calculation_logic.calculate_room_price(
             valid_data_dict['number_of_days'],
