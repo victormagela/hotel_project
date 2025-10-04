@@ -10,13 +10,33 @@ import utils
 def main():
     '''Main program, receives the data from all other .py'''
     while True:
-        valid_data_dict = user_interface.main_menu()
+        option = user_interface.display_main_menu()
+
+        if option == '1':
+            os.system('cls')
+            run_new_reservation()
+        
+        elif option == '2':
+            os.system('cls')
+            user_interface.reservation_management()
+
+        else:
+            os.system('cls')
+            break
+
+    print(f'{colors_and_title.AMARELO_NORMAL}Obrigado por usar o sistema de reservas do Resort das Marés!{colors_and_title.RESET}')
+
+
+def run_new_reservation():
+    while True:
+        valid_data_dict = user_interface.collect_guest_info()
 
         daily_room_rate, total_price = calculation_logic.calculate_room_price(
-            valid_data_dict['number_of_days'],
-            valid_data_dict['number_of_guests'],
-            valid_data_dict['room_type'])
-        
+                valid_data_dict['number_of_days'],
+                valid_data_dict['number_of_guests'],
+                valid_data_dict['room_type']
+                )
+            
         valid_data_dict['daily_rate'] = daily_room_rate
         valid_data_dict['total_price'] = total_price
 
@@ -27,14 +47,12 @@ def main():
             utils.save_reservation(valid_data_dict)
             break
 
-        
+            
         elif reservation_reinput.startswith('n'):
             break
 
         else:
             os.system('cls')
-
-    print(f'{colors_and_title.AMARELO_NORMAL}Obrigado por usar o sistema de reservas do Resort das Marés!{colors_and_title.RESET}')
 
 
 if __name__ == '__main__':

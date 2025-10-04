@@ -155,7 +155,7 @@ def data_exit_and_confirmation(report, total_price):
             input(f'{colors_and_title.AMARELO_NORMAL}Digite qualquer tecla para voltar ao menu anterior.{colors_and_title.RESET}')
 
 
-def main_menu():
+def display_main_menu():
     input(f'{colors_and_title.VERDE_NEGRITO}{colors_and_title.title}{colors_and_title.RESET}\n'
           f'{colors_and_title.AMARELO_NORMAL}Digite qualquer tecla para prosseguir para o menu principal: {colors_and_title.RESET}')
    
@@ -171,18 +171,9 @@ def main_menu():
             print(f'{colors_and_title.VERMELHO_NORMAL}Por favor, escolha apenas entre opções 1, 2 e 3.{colors_and_title.RESET}')
             continue
 
-        elif option == '1':
-            valid_data_dict = collect_guest_info()
-            return valid_data_dict
-
-        elif option == '2':
-            reservation_management()
-
         else:
-            os.system('cls')
-            print(f'{colors_and_title.VERDE_NEGRITO}Obrigado por usar o sistema de reservas do Resort das Marés!{colors_and_title.RESET}')
-            sys.exit()
-
+            return option
+        
 def get_reservation_details(reservation_dict):
     while True:
         os.system('cls')
