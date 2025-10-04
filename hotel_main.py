@@ -10,6 +10,7 @@ import utils
 def main():
     '''Main program, receives the data from all other .py'''
     while True:
+        os.system('cls')
         option = user_interface.display_main_menu()
 
         if option == '1':
@@ -18,7 +19,7 @@ def main():
         
         elif option == '2':
             os.system('cls')
-            user_interface.reservation_management()
+            run_reservation_management()
 
         else:
             os.system('cls')
@@ -54,6 +55,27 @@ def run_new_reservation():
         else:
             os.system('cls')
 
+
+def run_reservation_management():
+    reservation_dict = utils.read_file()
+    
+    if user_interface.check_reservation_file(reservation_dict):
+        reservation_details, name_id, cpf_id = user_interface.get_reservation_details(reservation_dict)
+        if not reservation_details:
+            return
+        
+        old_reservation_option = user_interface.prompt_old_reservation_options()
+
+        if old_reservation_option == '1':
+            user_interface.update_reservation(reservation_dict, reservation_details, name_id, cpf_id)
+
+        elif old_reservation_option == '2':
+            del reservation_dict[f'{name_id}_{cpf_id}']
+            utils.save_reservation_after_update(reservation_dict)
+            input(f'{colors_and_title.VERDE_NEGRITO}Reserva cancelada com sucesso! Digite qualquer tecla para voltar ao menu anterior.'
+                f'{colors_and_title.RESET}')
+            
+        return
 
 if __name__ == '__main__':
     main()

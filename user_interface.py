@@ -183,24 +183,23 @@ def get_reservation_details(reservation_dict):
                        f'{colors_and_title.RESET}').replace(' ', '').replace('-', '').replace('.', '')
         
         reservation_details = utils.find_reservation(reservation_dict, name_id, cpf_id)
-        if reservation_details:
-            return reservation_details, name_id, cpf_id
-
-        else:
+        if not reservation_details:
             option_for_id_not_found = input(f'''{colors_and_title.AMARELO_NORMAL}Não conseguimos localizar sua reserva. Gostaria de:
-        [1] Tentar novamente
-        [2] Voltar ao menu anterior
-    >>>>>>  {colors_and_title.RESET}''').strip()
+            [1] Tentar novamente
+            [2] Voltar ao menu anterior
+        >>>>>>  {colors_and_title.RESET}''').strip()
 
             if option_for_id_not_found not in ['1', '2']:
-                input(f'{colors_and_title.VERMELHO_NORMAL}Por favor, escolha apenas entre opções 1 e 2. Digite qualquer tecla para voltar.'
-                    f'{colors_and_title.RESET}')
+                    input(f'{colors_and_title.VERMELHO_NORMAL}Por favor, escolha apenas entre opções 1 e 2. Digite qualquer tecla para voltar.'
+                        f'{colors_and_title.RESET}')
 
             elif option_for_id_not_found == '1':
                 continue
 
             elif option_for_id_not_found == '2':
                 return None, None, None
+            
+        return reservation_details, name_id, cpf_id
 
 def update_reservation(reservation_dict, reservation_details, name_id, cpf_id):
     while True:
@@ -295,37 +294,39 @@ f'''{colors_and_title.AMARELO_NORMAL}Favor, escolha do menu abaixo qual quarto v
             sys.exit()
                 
 
-def reservation_management():
-    reservation_dict = utils.read_file()
+def check_reservation_file(reservation_dict):
     if not reservation_dict:
         input(f'{colors_and_title.VERMELHO_NORMAL}Não há reservas salvas! Digite qualquer tecla para voltar ao menu anterior.'
               f'{colors_and_title.RESET}')
-        return
+        return False
+    
+    return True
 
-    reservation_details, name_id, cpf_id = get_reservation_details(reservation_dict)
-    if not reservation_details:
-        return
 
-    os.system('cls')
-    update_or_cancel = input(
-f'''{colors_and_title.AMARELO_NORMAL}Por favor, escolha do menu abaixo qual das opções gostaria de seguir:
-    [1] - Alterar sua reserva antiga
-    [2] - Cancelar sua reserva antiga
-    [3] - Voltar ao menu anterior
->>>>>> {colors_and_title.RESET}''')
-                
-    if update_or_cancel not in ['1', '2', '3']:
-        input(f'{colors_and_title.VERMELHO_NORMAL}Por favor, escolha uma opcão entre 1 e 3. Digite qualquer tecla para voltar'
-            f'{colors_and_title.RESET}')
+def prompt_old_reservation_options():
+    while True:
 
-    elif update_or_cancel == '1':
-        update_reservation(reservation_dict, reservation_details, name_id, cpf_id)
+        os.system('cls')
+        update_or_cancel = input(
+    f'''{colors_and_title.AMARELO_NORMAL}Por favor, escolha do menu abaixo qual das opções gostaria de seguir:
+        [1] - Alterar sua reserva antiga
+        [2] - Cancelar sua reserva antiga
+        [3] - Voltar ao menu anterior
+    >>>>>> {colors_and_title.RESET}''')
+                    
+        if update_or_cancel not in ['1', '2', '3']:
+            input(f'{colors_and_title.VERMELHO_NORMAL}Por favor, escolha uma opcão entre 1 e 3. Digite qualquer tecla para voltar'
+                f'{colors_and_title.RESET}')
 
-    elif update_or_cancel == '2':
-        del reservation_dict[f'{name_id}_{cpf_id}']
-        utils.save_reservation_after_update(reservation_dict)
-        input(f'{colors_and_title.VERDE_NEGRITO}Reserva cancelada com sucesso! Digite qualquer tecla para voltar ao menu anterior.'
-              f'{colors_and_title.RESET}')
+        elif update_or_cancel == '1':
+            return '1'
+            update_reservation(reservation_dict, reservation_details, name_id, cpf_id)
 
-    else:
-        return
+        elif update_or_cancel == '2':
+            return '2'
+            del reservation_dict[f'{name_id}_{cpf_id}']
+            utils.save_reservation_after_update(reservation_dict)
+            input(f'{colors_and_title.VERDE_NEGRITO}Reserva cancelada com sucesso! Digite qualquer tecla para voltar ao menu anterior.'
+                f'{colors_and_title.RESET}')
+
+        return '3'
