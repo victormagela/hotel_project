@@ -233,15 +233,7 @@ f'''{colors_and_title.AMARELO_NORMAL}Qual dos dados a seguir você gostaria de a
             new_name = input(f'{colors_and_title.AMARELO_NORMAL}Digite o novo nome:  {colors_and_title.RESET}').strip().title()
                             
             if data_validation.name_validation(new_name):
-                old_key = f'{name_id}_{cpf_id}'
                 utils.update_reservation_name(reservation_dict, reservation_details, new_name, name_id, cpf_id)
-                new_key = f'{new_name}_{cpf_id}'
-                # We check if the new key is indeed different from the old key, just so that the program doesn't need to do a redundant task
-                
-                if new_key != old_key:
-                    # The outcome of the expression to the right already returns the dictionary value that we want and is then assigned to new key
-                    reservation_dict[new_key] = reservation_dict.pop(old_key)
-
                 input(f'\n{colors_and_title.VERDE_NEGRITO}Nome atualizado com sucesso! Digite qualquer tecla para voltar.'
                       f'{colors_and_title.RESET}')
 
@@ -256,15 +248,7 @@ f'''{colors_and_title.AMARELO_NORMAL}Qual dos dados a seguir você gostaria de a
             .replace('.', '')
                             
             if data_validation.cpf_validation(new_cpf):
-                old_key = f'{name_id}_{cpf_id}'
-                utils.update_reservation_cpf(reservation_dict, reservation_details, new_cpf, name_id, cpf_id)
-                new_key = f'{name_id}_{new_cpf}'
-                # We check if the new key is indeed different from the old key, just so that the program doesn't need to do a redundant task
-                
-                if new_key != old_key:
-                    # The outcome of the expression to the right already returns the dictionary value that we want and is then assigned to new key
-                    reservation_dict[new_key] = reservation_dict.pop(old_key)
-
+                utils.update_reservation_cpf(reservation_dict, reservation_details, new_cpf, name_id, cpf_id)                
                 input(f'\n{colors_and_title.VERDE_NEGRITO}CPF atualizado com sucesso! Digite qualquer tecla para voltar.'
                       f'{colors_and_title.RESET}')
 
