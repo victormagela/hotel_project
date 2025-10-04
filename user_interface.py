@@ -20,7 +20,7 @@ def collect_guest_name():
             print(f'{colors_and_title.VERMELHO_NORMAL}Nome inválido!{colors_and_title.RESET}')
 
 
-def collect_cpf():
+def collect_guest_cpf():
     while True:
          
         cpf_input = input(f'{colors_and_title.AMARELO_NORMAL}Favor digitar seu CPF: {colors_and_title.RESET}')\
@@ -112,7 +112,7 @@ def collect_guest_info():
     valid_data_dict['client_name'] = name
 
     print(f'{colors_and_title.VERDE_NEGRITO}\n---DADOS DO CLIENTE---{colors_and_title.RESET}')
-    cpf_input = collect_cpf()
+    cpf_input = collect_guest_cpf()
     valid_data_dict['client_cpf'] = cpf_input
 
     print(f'{colors_and_title.VERDE_NEGRITO}\n---DADOS DA RESERVA---{colors_and_title.RESET}')

@@ -44,11 +44,12 @@ def save_reservation(reservation_details):
     '''Saves the current reservation to a JSON file without overwriting any previous reservation saved on it.'''
     reservation_dict = read_file()  # In order to not overwrite anything, the save function must read the file, and then add to it.
     reservation_dict[f'{reservation_details['client_name']}_{reservation_details['client_cpf']}'] = reservation_details
+    
     with open(save_path, 'w', encoding='utf-8') as file:
         json.dump(reservation_dict, file, ensure_ascii=False, indent=4)
 
 def update_reservation_name(reservation_dict, reservation_details, new_name, old_name, cpf_id):
-    reservation_details['client_name'] = new_name # This is enough to assign the new value to the client_name key
+    reservation_details['client_name'] = new_name 
     old_key = f'{old_name}_{cpf_id}'
     new_key = f'{new_name}_{cpf_id}'
     # We check if the new key is indeed different from the old key, just so that the program doesn't need to do a redundant task
@@ -59,7 +60,7 @@ def update_reservation_name(reservation_dict, reservation_details, new_name, old
 
 
 def update_reservation_cpf(reservations_dict, reservation_details, new_cpf, name_id, old_cpf):
-    reservation_details['client_cpf'] = new_cpf # This is enough to assign the new value to the client_cpf key
+    reservation_details['client_cpf'] = new_cpf 
     old_key = f'{name_id}_{old_cpf}'
     new_key = f'{name_id}_{new_cpf}'
     # We check if the new key is indeed different from the old key, just so that the program doesn't need to do a redundant task
@@ -72,13 +73,13 @@ def update_reservation_cpf(reservations_dict, reservation_details, new_cpf, name
 def update_reservation_guest_num(reservation_details, new_guest_num):
 
     if new_guest_num != reservation_details['number_of_guests']:
-        reservation_details['number_of_guests'] = new_guest_num # This is enough to assign the new value to the number_of_guests key
+        reservation_details['number_of_guests'] = new_guest_num 
         update_prices(reservation_details)
 
 def update_reservation_room_type(reservation_details, new_room_type):
 
     if new_room_type != reservation_details['room_type']:
-        reservation_details['room_type'] = new_room_type # This is enough to assign the new value to the room_type key
+        reservation_details['room_type'] = new_room_type 
         update_prices(reservation_details)
         new_room_name = 'Rei Tritão' if new_room_type == '1' else 'Princesa Ariel'
         reservation_details['room_name'] = new_room_name
@@ -88,7 +89,7 @@ def update_reservation_num_days(reservation_details, new_num_days):
     new_num_days_int = int(new_num_days) 
 
     if new_num_days_int != reservation_details['number_of_days']:
-        reservation_details['number_of_days'] = new_num_days_int # This is enough to assign the new value to the number_of_days key
+        reservation_details['number_of_days'] = new_num_days_int 
         update_prices(reservation_details)
 
 def update_prices(reservation_details):
