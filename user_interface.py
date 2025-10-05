@@ -173,8 +173,9 @@ def get_reservation_details(reservation_dict):
                         f'{colors_and_title.RESET}').title().strip()
         cpf_id = input(f'{colors_and_title.AMARELO_NORMAL}Por favor, digite seu CPF agora para finalizarmos nossa consulta:  '
                        f'{colors_and_title.RESET}').replace(' ', '').replace('-', '').replace('.', '')
-        
-        reservation_details = utils.find_reservation(reservation_dict, name_id, cpf_id)
+        reservation_details_key = f'{name_id}_{cpf_id}'
+
+        reservation_details = utils.find_reservation(reservation_dict, reservation_details_key)
         if not reservation_details:
             option_for_id_not_found = input(f'''{colors_and_title.AMARELO_NORMAL}Não conseguimos localizar sua reserva. Gostaria de:
             [1] Tentar novamente
@@ -189,11 +190,11 @@ def get_reservation_details(reservation_dict):
                 continue
 
             elif option_for_id_not_found == '2':
-                return None, None, None
+                return None, None
             
-        return reservation_details, name_id, cpf_id
+        return reservation_details, reservation_details_key
 
-def update_reservation(reservation_dict, reservation_details, name_id, cpf_id):
+def update_reservation(reservation_dict, reservation_object, reservation_details_key):
     while True:
         os.system('cls')
         data_change_input = input(
@@ -215,7 +216,7 @@ f'''{colors_and_title.AMARELO_NORMAL}Qual dos dados a seguir você gostaria de a
             new_name = input(f'{colors_and_title.AMARELO_NORMAL}Digite o novo nome:  {colors_and_title.RESET}').strip().title()
                             
             if data_validation.name_validation(new_name):
-                utils.update_reservation_name(reservation_dict, reservation_details, new_name, name_id, cpf_id)
+                reservation_object.update_reservation_name(new_name)
                 input(f'\n{colors_and_title.VERDE_NEGRITO}Nome atualizado com sucesso! Digite qualquer tecla para voltar.'
                       f'{colors_and_title.RESET}')
 
@@ -230,7 +231,7 @@ f'''{colors_and_title.AMARELO_NORMAL}Qual dos dados a seguir você gostaria de a
             .replace('.', '')
                             
             if data_validation.cpf_validation(new_cpf):
-                utils.update_reservation_cpf(reservation_dict, reservation_details, new_cpf, name_id, cpf_id)                
+                reservation_object.update_reservation_cpf(new_cpf)               
                 input(f'\n{colors_and_title.VERDE_NEGRITO}CPF atualizado com sucesso! Digite qualquer tecla para voltar.'
                       f'{colors_and_title.RESET}')
 
@@ -242,7 +243,7 @@ f'''{colors_and_title.AMARELO_NORMAL}Qual dos dados a seguir você gostaria de a
             new_guest_num = input(f'{colors_and_title.AMARELO_NORMAL}Digite o novo número de hóspedes:  {colors_and_title.RESET}')
                             
             if data_validation.guest_num_validation(new_guest_num):
-                utils.update_reservation_guest_num(reservation_details, new_guest_num)
+                reservation_object.update_reservation_guest_num(new_guest_num)
                 input(f'\n{colors_and_title.VERDE_NEGRITO}Número de hóspedes atualizado com sucesso! Digite qualquer tecla para voltar.'
                       f'{colors_and_title.RESET}')
 
@@ -258,7 +259,7 @@ f'''{colors_and_title.AMARELO_NORMAL}Favor, escolha do menu abaixo qual quarto v
 >>>>>> {colors_and_title.RESET}''')
                             
             if data_validation.room_type_validation(new_room_type):
-                utils.update_reservation_room_type(reservation_details, new_room_type)
+                reservation_object.update_reservation_room_type(new_room_type)
                 input(f'\n{colors_and_title.VERDE_NEGRITO}Tipo de quarto atualizado com sucesso! Digite qualquer tecla para voltar.'
                       f'{colors_and_title.RESET}')
 
@@ -270,7 +271,7 @@ f'''{colors_and_title.AMARELO_NORMAL}Favor, escolha do menu abaixo qual quarto v
             new_num_days = input(f'{colors_and_title.AMARELO_NORMAL}Digite o novo número de dias a hospedar:  {colors_and_title.RESET}')
                             
             if data_validation.num_days_validation(new_num_days):
-                utils.update_reservation_num_days(reservation_details, new_num_days)
+                reservation_object.update_reservation_num_days(new_num_days)
                 input(f'\n{colors_and_title.VERDE_NEGRITO}Número de dias atualizado com sucesso! Digite qualquer tecla para voltar.'
                       f'{colors_and_title.RESET}')
 
@@ -280,7 +281,7 @@ f'''{colors_and_title.AMARELO_NORMAL}Favor, escolha do menu abaixo qual quarto v
 
         else:
             os.system('cls')
-            utils.save_reservation_after_update(reservation_dict)
+            utils.save_reservation_after_update(reservation_dict, reservation_object, reservation_details_key)
             print(f'{colors_and_title.VERDE_NEGRITO}Alterações concluídas! Obrigado por se hospedar no Resort das Marés!'
                   f'{colors_and_title.RESET}')
             sys.exit()
@@ -317,3 +318,9 @@ def prompt_old_reservation_options():
             return '2'
 
         return '3'
+    
+
+def display_reservation_deletion_msg():
+    input(f'{colors_and_title.VERDE_NEGRITO}Reserva cancelada com sucesso! Digite qualquer tecla para voltar ao menu anterior.'
+                f'{colors_and_title.RESET}')
+            

@@ -13,15 +13,22 @@ class Reservation:
     }
 
 
-    def __init__(self, client_name, client_cpf, number_of_guests, room_type, number_of_days):
+    def __init__(self, client_name, client_cpf, number_of_guests, room_type, number_of_days, 
+                 room_name = '', daily_rate = 0, total_price = 0):
         self.client_name = client_name
         self.client_cpf = client_cpf
         self.number_of_guests = number_of_guests
         self.room_type = room_type
         self.number_of_days = int(number_of_days)
-        self.room_name = 'Rei Tritão' if self.room_type == '1' else 'Princesa Ariel'
-        self.daily_rate = 0
-        self.total_price = 0
+        if not room_name:
+            self.room_name = 'Rei Tritão' if self.room_type == '1' else 'Princesa Ariel'
+        else:
+            self.room_name = room_name
+        if daily_rate == 0 and total_price == 0:
+            self.calculate_room_price()
+        else:
+            self.daily_rate = daily_rate
+            self.total_price = total_price
 
     def calculate_room_price(self):
 

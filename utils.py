@@ -3,7 +3,6 @@ import colors_and_title
 import os
 import locale
 import json
-import calculation_logic
 
 script_directory = os.path.dirname(os.path.abspath(__file__))
 save_path = os.path.join(script_directory, 'reservation_data.json')
@@ -48,66 +47,22 @@ def save_reservation(reservation):
     with open(save_path, 'w', encoding='utf-8') as file:
         json.dump(reservation_dict, file, ensure_ascii=False, indent=4)
 
-def update_reservation_name(reservation_dict, reservation_details, new_name, old_name, cpf_id):
-    reservation_details['client_name'] = new_name 
-    old_key = f'{old_name}_{cpf_id}'
-    new_key = f'{new_name}_{cpf_id}'
-    # We check if the new key is indeed different from the old key, just so that the program doesn't need to do a redundant task
+
+def save_reservation_after_update(reservation_dict, reservation, reservation_details_key):
+    '''Deletes the old entry and then saves the updated reservation dictionary to the JSON file.'''
+    del reservation_dict[reservation_details_key]
+    reservation_dict[f'{reservation.client_name}_{reservation.client_cpf}'] = reservation.__dict__
     
-    if new_key != old_key:
-        # The outcome of the expression to the right already returns the dictionary value that we want and is then assigned to new key
-        reservation_dict[new_key] = reservation_dict.pop(old_key)
-
-
-def update_reservation_cpf(reservations_dict, reservation_details, new_cpf, name_id, old_cpf):
-    reservation_details['client_cpf'] = new_cpf 
-    old_key = f'{name_id}_{old_cpf}'
-    new_key = f'{name_id}_{new_cpf}'
-    # We check if the new key is indeed different from the old key, just so that the program doesn't need to do a redundant task
-    
-    if new_key != old_key:
-        # The outcome of the expression to the right already returns the dictionary value that we want and is then assigned to new key
-        reservations_dict[new_key] = reservations_dict.pop(old_key)
-
-
-def update_reservation_guest_num(reservation_details, new_guest_num):
-
-    if new_guest_num != reservation_details['number_of_guests']:
-        reservation_details['number_of_guests'] = new_guest_num 
-        update_prices(reservation_details)
-
-def update_reservation_room_type(reservation_details, new_room_type):
-
-    if new_room_type != reservation_details['room_type']:
-        reservation_details['room_type'] = new_room_type 
-        update_prices(reservation_details)
-        new_room_name = 'Rei Tritão' if new_room_type == '1' else 'Princesa Ariel'
-        reservation_details['room_name'] = new_room_name
-
-
-def update_reservation_num_days(reservation_details, new_num_days):
-    new_num_days_int = int(new_num_days) 
-
-    if new_num_days_int != reservation_details['number_of_days']:
-        reservation_details['number_of_days'] = new_num_days_int 
-        update_prices(reservation_details)
-
-def update_prices(reservation_details):
-    '''Function to recalculate prices if needed'''
-    new_daily_rate, new_total_price = calculation_logic.calculate_room_price(
-            reservation_details['number_of_days'],
-            reservation_details['number_of_guests'],
-            reservation_details['room_type'])
-
-    reservation_details['daily_rate'] = new_daily_rate
-    reservation_details['total_price'] = new_total_price
-
-
-def save_reservation_after_update(reservation_dict):
-    '''Saves the updated reservation dictionary to the JSON file.'''
     with open(save_path, 'w', encoding='utf-8') as file:
         json.dump(reservation_dict, file, ensure_ascii=False, indent=4)
 
 
-def find_reservation(reservations_dict, name_id, cpf_id):
-    return reservations_dict.get(f'{name_id}_{cpf_id}')
+def delete_reservation(reservation_dict, reservation_details_key):
+    del reservation_dict[reservation_details_key]
+
+    with open(save_path, 'w', encoding='utf-8') as file:
+        json.dump(reservation_dict, file, ensure_ascii=False, indent=4)
+
+
+def find_reservation(reservations_dict, reservation_details_key):
+    return reservations_dict.get(reservation_details_key)
