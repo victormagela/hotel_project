@@ -3,7 +3,7 @@ import os
 import locale
 locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 import data_validation
-import utils
+import file_handler
 import sys
 from classes import Reservation
 
@@ -22,8 +22,7 @@ def collect_guest_name():
 
 
 def collect_guest_cpf():
-    while True:
-         
+    while True: 
         cpf_input = input(f'{colors_and_title.AMARELO_NORMAL}Favor digitar seu CPF: {colors_and_title.RESET}')\
         .replace(' ', '')\
         .replace('-', '')\
@@ -39,7 +38,6 @@ def collect_guest_cpf():
 
 def collect_guest_num():
     while True:
-
         guest_num = input(f'{colors_and_title.AMARELO_NORMAL}Favor informar o número de hóspedes(nossos quartos comportam de 1 a 6 pessoas): '
                           f'{colors_and_title.RESET}')
         
@@ -61,15 +59,19 @@ def collect_room_type():
         
         os.system('cls')
         if data_validation.room_type_validation(room_type) and room_type == '1':
-            print(f'{colors_and_title.AMARELO_NEGRITO}Você escolheu o quarto: Rei Tritão!{colors_and_title.RESET}')
-            return room_type
+            input(f'{colors_and_title.AMARELO_NEGRITO}Você escolheu o quarto: Rei Tritão!{colors_and_title.RESET}'
+                  f'\n{colors_and_title.AMARELO_NORMAL}Digite qualquer tecla para continuar.{colors_and_title.RESET}')
 
         elif data_validation.room_type_validation(room_type) and room_type == '2':
-            print(f'{colors_and_title.AMARELO_NEGRITO}Você escolheu o quarto: Princesa Ariel!{colors_and_title.RESET}')
-            return room_type
+            input(f'{colors_and_title.AMARELO_NEGRITO}Você escolheu o quarto: Princesa Ariel!{colors_and_title.RESET}'
+                  f'\n{colors_and_title.AMARELO_NORMAL}Digite qualquer tecla para continuar.{colors_and_title.RESET}')
         
         else:
-             print(f'{colors_and_title.VERMELHO_NORMAL}Favor escolher apenas entre quarto [1] ou [2]{colors_and_title.RESET}')
+             print(f'{colors_and_title.VERMELHO_NORMAL}Favor escolher apenas entre quarto [1] ou [2].{colors_and_title.RESET}')
+             continue
+        
+        os.system('cls')
+        return room_type
 
 
 def collect_num_days():
@@ -103,8 +105,6 @@ def show_report_and_ask_confirmation(report):
 
 def collect_guest_info():
     '''Larger function that groups all the smaller data collect related ones'''
-    input(f'{colors_and_title.AMARELO_NORMAL}Digite qualquer tecla para prosseguir para a reserva: {colors_and_title.RESET}')
-
     os.system('cls')
     print(f'{colors_and_title.VERDE_NEGRITO}\n---DADOS DO CLIENTE---{colors_and_title.RESET}')
     name = collect_guest_name()
@@ -128,12 +128,13 @@ def data_exit_and_confirmation(report, reservation):
     '''Function that groups smaller data exit and user confirmation related functions'''
     show_user_total_price(reservation)
     while True:
+        os.system('cls')
         user_confirmation = show_report_and_ask_confirmation(report)
 
         os.system('cls')
         if user_confirmation.startswith('s'):
-            print(f'{colors_and_title.AMARELO_NORMAL}Reserva confirmada! Obrigado por se hospedar no Resort das Marés!'
-                f'{colors_and_title.RESET}')
+            input(f'{colors_and_title.AMARELO_NORMAL}Reserva confirmada! Obrigado por se hospedar no Resort das Marés!'
+                f'\nDigite qualquer tecla para voltar ao começo.{colors_and_title.RESET}')
             return user_confirmation, ''
 
         elif user_confirmation.startswith('n'):
@@ -175,7 +176,7 @@ def get_reservation_details(reservation_dict):
                        f'{colors_and_title.RESET}').replace(' ', '').replace('-', '').replace('.', '')
         reservation_details_key = f'{name_id}_{cpf_id}'
 
-        reservation_details = utils.find_reservation(reservation_dict, reservation_details_key)
+        reservation_details = file_handler.find_reservation(reservation_dict, reservation_details_key)
         if not reservation_details:
             option_for_id_not_found = input(f'''{colors_and_title.AMARELO_NORMAL}Não conseguimos localizar sua reserva. Gostaria de:
             [1] Tentar novamente
@@ -281,7 +282,7 @@ f'''{colors_and_title.AMARELO_NORMAL}Favor, escolha do menu abaixo qual quarto v
 
         else:
             os.system('cls')
-            utils.save_reservation_after_update(reservation_dict, reservation_object, reservation_details_key)
+            file_handler.save_reservation_after_update(reservation_dict, reservation_object, reservation_details_key)
             print(f'{colors_and_title.VERDE_NEGRITO}Alterações concluídas! Obrigado por se hospedar no Resort das Marés!'
                   f'{colors_and_title.RESET}')
             sys.exit()
@@ -302,13 +303,14 @@ def prompt_old_reservation_options():
         os.system('cls')
         update_or_cancel = input(
     f'''{colors_and_title.AMARELO_NORMAL}Por favor, escolha do menu abaixo qual das opções gostaria de seguir:
-        [1] - Alterar sua reserva antiga
-        [2] - Cancelar sua reserva antiga
-        [3] - Voltar ao menu anterior
+        [1] - Visualizar reserva antiga
+        [2] - Alterar sua reserva antiga
+        [3] - Cancelar sua reserva antiga
+        [4] - Voltar ao menu anterior
     >>>>>> {colors_and_title.RESET}''')
                     
-        if update_or_cancel not in ['1', '2', '3']:
-            input(f'{colors_and_title.VERMELHO_NORMAL}Por favor, escolha uma opcão entre 1 e 3. Digite qualquer tecla para voltar'
+        if update_or_cancel not in ['1', '2', '3', '4']:
+            input(f'{colors_and_title.VERMELHO_NORMAL}Por favor, escolha uma opcão entre 1 e 4. Digite qualquer tecla para voltar'
                 f'{colors_and_title.RESET}')
 
         elif update_or_cancel == '1':
@@ -317,7 +319,10 @@ def prompt_old_reservation_options():
         elif update_or_cancel == '2':
             return '2'
 
-        return '3'
+        elif update_or_cancel == '3':
+            return '3'
+        
+        return '4'
     
 
 def display_reservation_deletion_msg():

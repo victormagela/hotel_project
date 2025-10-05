@@ -3,7 +3,7 @@
 import user_interface
 import os
 import colors_and_title
-import utils
+import file_handler
 from classes import Reservation
 
 # Defining main program function and execution
@@ -36,7 +36,7 @@ def run_new_reservation():
 
         user_confirmation, reservation_reinput = user_interface.data_exit_and_confirmation(report, reservation)
         if user_confirmation.startswith('s'):
-            utils.save_reservation(reservation)
+            file_handler.save_reservation(reservation)
             break
 
             
@@ -48,7 +48,7 @@ def run_new_reservation():
 
 
 def run_reservation_management():
-    reservation_dict = utils.read_file()
+    reservation_dict = file_handler.read_file()
     
     if user_interface.check_reservation_file(reservation_dict):
         reservation_details, reservation_details_key = user_interface.get_reservation_details(reservation_dict)
@@ -59,11 +59,17 @@ def run_reservation_management():
         old_reservation_option = user_interface.prompt_old_reservation_options()
 
         if old_reservation_option == '1':
+            report = reservation.generate_reservation_report()
+            input(f'{report}\n' 
+                f'{colors_and_title.AMARELO_NORMAL}\nDigite qualquer tecla para prosseguir{colors_and_title.RESET}')
+
+        if old_reservation_option == '2':
             user_interface.update_reservation(reservation_dict, reservation, reservation_details_key)
 
-        elif old_reservation_option == '2':
-            utils.delete_reservation(reservation_dict, reservation_details_key)
+        elif old_reservation_option == '3':
+            file_handler.delete_reservation(reservation_dict, reservation_details_key)
             user_interface.display_reservation_deletion_msg()
+        
         return
 
 if __name__ == '__main__':

@@ -1,34 +1,13 @@
 '''Utility functions for the hotel reservation system'''
-import colors_and_title
 import os
-import locale
 import json
 
 script_directory = os.path.dirname(os.path.abspath(__file__))
 save_path = os.path.join(script_directory, 'reservation_data.json')
 
-def make_report(reservation_details):
-    '''Processes all the data into a concisive report'''
-
-    os.system("cls")
-    report = (    
-        f'{colors_and_title.VERDE_NEGRITO}{"="*30}\n'
-        f'RELATÓRIO DE RESERVA\n'
-        f'{"="*30}\n'
-        f'{colors_and_title.AMARELO_NEGRITO}Cliente : {reservation_details['client_name']}\n'
-        f'CPF: {reservation_details['client_cpf']}\n'
-        f'Quarto: {reservation_details['room_name']}\n'
-        f'Número de hóspedes: {reservation_details['number_of_guests']}\n'
-        f'Preço da diária: {colors_and_title.VERDE_NEGRITO}{locale.currency(reservation_details['daily_rate'], grouping=True)}{colors_and_title.RESET}\n'
-        f'{colors_and_title.AMARELO_NEGRITO}Número de dias a hospedar: {reservation_details['number_of_days']}\n'
-        f'Preço total: {colors_and_title.VERDE_NEGRITO}{locale.currency(reservation_details['total_price'], grouping=True)}{colors_and_title.RESET}\n'
-        )
-    return report
-
 
 def read_file():
     '''Tries to read reservation data from a JSON file. If the file does not exist, returns an empty dictionary.'''
-
     try:
         with open(save_path, 'r', encoding='utf-8') as file:
             loaded_data = json.load(file)
