@@ -5,7 +5,7 @@ locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 import data_validation
 import utils
 import sys
-import classes
+from classes import Reservation
 
 # Smaller function that collects user info one by one
 def collect_guest_name():
@@ -86,11 +86,11 @@ def collect_num_days():
                   f'{colors_and_title.RESET}')
 
 
-def show_user_total_price(total_price):
+def show_user_total_price(reservation):
     '''Displays processed data to the user'''
     os.system('cls')
     print(f'{colors_and_title.AMARELO_NORMAL}O total fica:{colors_and_title.RESET} {colors_and_title.VERDE_NEGRITO}'
-          f'{locale.currency(total_price, grouping=True)}{colors_and_title.RESET}\n')
+          f'{locale.currency(reservation.total_price, grouping=True)}{colors_and_title.RESET}\n')
     input(f'{colors_and_title.AMARELO_NORMAL}Digite qualquer tecla para confirmar e prosseguir para o relatório: {colors_and_title.RESET}')
 
 
@@ -103,38 +103,30 @@ def show_report_and_ask_confirmation(report):
 
 def collect_guest_info():
     '''Larger function that groups all the smaller data collect related ones'''
-    valid_data_dict = {}
-
     input(f'{colors_and_title.AMARELO_NORMAL}Digite qualquer tecla para prosseguir para a reserva: {colors_and_title.RESET}')
 
     os.system('cls')
     print(f'{colors_and_title.VERDE_NEGRITO}\n---DADOS DO CLIENTE---{colors_and_title.RESET}')
     name = collect_guest_name()
-    valid_data_dict['client_name'] = name
 
     print(f'{colors_and_title.VERDE_NEGRITO}\n---DADOS DO CLIENTE---{colors_and_title.RESET}')
     cpf_input = collect_guest_cpf()
-    valid_data_dict['client_cpf'] = cpf_input
 
     print(f'{colors_and_title.VERDE_NEGRITO}\n---DADOS DA RESERVA---{colors_and_title.RESET}')
     guest_num = collect_guest_num()
-    valid_data_dict['number_of_guests'] = guest_num
 
     print(f'{colors_and_title.VERDE_NEGRITO}\n---DADOS DA RESERVA---{colors_and_title.RESET}')
     room_type = collect_room_type()
-    room_name = 'Rei Tritão' if room_type == '1' else 'Princesa Ariel'
-    valid_data_dict['room_type'] = room_type
-    valid_data_dict['room_name'] = room_name
 
     print(f'{colors_and_title.VERDE_NEGRITO}\n---DADOS DA RESERVA---{colors_and_title.RESET}')
     num_days_int = collect_num_days()
-    valid_data_dict['number_of_days'] = num_days_int
 
-    return valid_data_dict
+    reservation = Reservation(name, cpf_input, guest_num, room_type, num_days_int)
+    return reservation
 
-def data_exit_and_confirmation(report, total_price):
+def data_exit_and_confirmation(report, reservation):
     '''Function that groups smaller data exit and user confirmation related functions'''
-    show_user_total_price(total_price)
+    show_user_total_price(reservation)
     while True:
         user_confirmation = show_report_and_ask_confirmation(report)
 
@@ -320,13 +312,8 @@ def prompt_old_reservation_options():
 
         elif update_or_cancel == '1':
             return '1'
-            update_reservation(reservation_dict, reservation_details, name_id, cpf_id)
 
         elif update_or_cancel == '2':
             return '2'
-            del reservation_dict[f'{name_id}_{cpf_id}']
-            utils.save_reservation_after_update(reservation_dict)
-            input(f'{colors_and_title.VERDE_NEGRITO}Reserva cancelada com sucesso! Digite qualquer tecla para voltar ao menu anterior.'
-                f'{colors_and_title.RESET}')
 
         return '3'

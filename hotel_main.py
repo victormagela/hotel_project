@@ -5,6 +5,7 @@ import calculation_logic
 import os
 import colors_and_title
 import utils
+from classes import Reservation
 
 # Defining main program function and execution
 def main():
@@ -30,22 +31,15 @@ def main():
 
 def run_new_reservation():
     while True:
-        valid_data_dict = user_interface.collect_guest_info()
+        reservation = user_interface.collect_guest_info()
 
-        daily_room_rate, total_price = calculation_logic.calculate_room_price(
-                valid_data_dict['number_of_days'],
-                valid_data_dict['number_of_guests'],
-                valid_data_dict['room_type']
-                )
-            
-        valid_data_dict['daily_rate'] = daily_room_rate
-        valid_data_dict['total_price'] = total_price
+        reservation.calculate_room_price()
 
-        report = utils.make_report(valid_data_dict)
+        report = reservation.generate_reservation_report()
 
-        user_confirmation, reservation_reinput = user_interface.data_exit_and_confirmation(report, total_price)
+        user_confirmation, reservation_reinput = user_interface.data_exit_and_confirmation(report, reservation)
         if user_confirmation.startswith('s'):
-            utils.save_reservation(valid_data_dict)
+            utils.save_reservation(reservation)
             break
 
             

@@ -40,10 +40,10 @@ def read_file():
         return {}
     
     
-def save_reservation(reservation_details):
+def save_reservation(reservation):
     '''Saves the current reservation to a JSON file without overwriting any previous reservation saved on it.'''
     reservation_dict = read_file()  # In order to not overwrite anything, the save function must read the file, and then add to it.
-    reservation_dict[f'{reservation_details['client_name']}_{reservation_details['client_cpf']}'] = reservation_details
+    reservation_dict[f'{reservation.client_name}_{reservation.client_cpf}'] = reservation.__dict__
     
     with open(save_path, 'w', encoding='utf-8') as file:
         json.dump(reservation_dict, file, ensure_ascii=False, indent=4)
